@@ -1,0 +1,38 @@
+version: '0.0.{build}'
+
+init:
+  - ps: >-
+      if($env:appveyor_repo_tag -eq 'True') {
+        Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_TAG_NAME.TrimStart("v"))"
+      }
+configuration:
+  - Debug
+  - Release
+
+environment:
+  global:
+    PYTHON: "C:\\Python36"
+
+  matrix:
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    arch: x86_64
+    platform: x64
+    visual_studio: Visual Studio 16 2019
+    compiler_toolset: v142
+
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    arch: x86
+    platform: Win32
+    visual_studio: Visual Studio 15 2017
+    compiler_toolset: v141
+
+install:
+  - "SET PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%"
+
+before_build:
+  - md build
+  - cd build
+  - cmake .. -G "%VISUAL_STUDIO%" -A %PLATFORM%
+
+build:
+  project: $(APPVEYOR_BUILD_FOLDER)\build\Patterns.sln
