@@ -16,4 +16,4 @@ include_directories(${CMAKE_SOURCE_DIR}/test)
 
 # Add subprojects
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/Patterns)
-# add_subdirectory(${CMAKE_SOURCE_DIR}/test/PatternsTest)
+add_subdirectory(${CMAKE_SOURCE_DIR}/test/PatternsTest)
