@@ -38,7 +38,7 @@ install:
 before_build:
   - md build
   - cd build
-  - conan install .. -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST% -o openssl=%OPENSSL%
+  - conan install .. -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST%
   - cmake .. -G "%VISUAL_STUDIO%" -A %PLATFORM%
 
 build:
