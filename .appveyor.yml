@@ -1,0 +1,57 @@
+version: '0.0.{build}'
+
+init:
+  - ps: >-
+      if($env:appveyor_repo_tag -eq 'True') {
+        Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_TAG_NAME.TrimStart("v"))"
+      }
+configuration:
+  - Debug
+  - Release
+
+environment:
+  global:
+    PYTHON: "C:\\Python36"
+
+  matrix:
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    arch: x86_64
+    platform: x64
+    visual_studio: Visual Studio 16 2019
+    compiler_toolset: v142
+    gtest: 1.10.0
+
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    arch: x86
+    platform: Win32
+    visual_studio: Visual Studio 15 2017
+    compiler_toolset: v141
+    gtest: 1.10.0
+
+install:
+  - "SET PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%"
+  - pip.exe install conan
+  - conan user
+  - conan remote add systelab-bintray https://api.bintray.com/conan/systelab/conan
+  - conan --version
+
+before_build:
+  - md build
+  - cd build
+  - conan install .. -s build_type=%CONFIGURATION% -s compiler.toolset=%COMPILER_TOOLSET% -s arch=%ARCH% -o gtest=%GTEST% --build=gtest
+  - cmake .. -G "%VISUAL_STUDIO%" -A %PLATFORM%
+
+build:
+  project: $(APPVEYOR_BUILD_FOLDER)\build\Patterns.sln
+  
+test_script:
+  - ps: cd bin
+  - ps: cd $env:CONFIGURATION
+  - PatternsTest.exe --gtest_output=xml:PatternsTest.xml
+
+after_test:
+  - ps: (new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\PatternsTest.xml))
+
+artifacts:
+  - path: 'build\lib\%CONFIGURATION%\Patterns.lib'
+    name: Patterns.lib
