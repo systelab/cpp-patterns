@@ -33,7 +33,7 @@ namespace systelab { namespace patterns { namespace test {
 		for (auto& o: observers)
 		{
 			m_subject->attach(&o);
-			EXPECT_CALL(o, update(_));
+			EXPECT_CALL(o, update(m_subject.get()));
 		}
 				
 		m_subject->notify();
