@@ -27,15 +27,6 @@ namespace systelab { namespace patterns { namespace test {
 		std::unique_ptr<Subject> m_subject;
 	};
 	
-	TEST_F(SubjectTest, testNotifyObserversCallsUpdateOnAddedObserver)
-	{
-		MockObserver observer;
-		m_subject->attach(&observer);
-		
-		EXPECT_CALL(observer, update(_));
-		m_subject->notify();
-	}
-	
 	TEST_F(SubjectTest, testNotifyObserversCallsUpdateOnAddedObservers)
 	{
 		MockObserver observers[5];
