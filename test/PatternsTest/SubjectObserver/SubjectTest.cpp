@@ -38,4 +38,17 @@ namespace systelab { namespace patterns { namespace test {
 				
 		m_subject->notify();
 	}
+	
+	TEST_F(SubjectTest, testNotifyObserversDoesNotCallUpdateOnUnattachedObservers)
+	{
+		MockObserver observers[5];
+		for (auto& o: observers)
+		{
+			m_subject->attach(&o);
+			m_subject->dettach(&o);
+			EXPECT_CALL(o, update(_)).Times(0);
+		}
+				
+		m_subject->notify();
+	}
 }}}
