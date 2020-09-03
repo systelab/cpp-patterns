@@ -24,6 +24,11 @@ namespace systelab { namespace patterns { namespace test {
 			m_observer = std::make_unique<MockObserver>();
 		}
 		
+		void TearDown()
+		{
+			m_observer.reset();
+		}
+		
 	protected:
 		std::unique_ptr<MockObserver> m_observer;
 		std::unique_ptr<Subject> m_subject;
@@ -36,4 +41,11 @@ namespace systelab { namespace patterns { namespace test {
 		m_subject->notify();
 	}
 
+	TEST_F(ObserverTest, testDestructorDettachesFromObservedSubjects)
+	{
+		m_observer->observe(m_subject.get());
+		m_observer.reset();
+		
+		ASSERT_NO_THROW(m_subject->notify());
+	}
 }}}
