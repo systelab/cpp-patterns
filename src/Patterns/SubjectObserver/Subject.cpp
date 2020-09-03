@@ -13,8 +13,9 @@ namespace systelab { namespace patterns {
 		m_observers.push_back(observer);
 	}
 	
-	void Subject::dettach(Observer*)
+	void Subject::dettach(Observer* observer)
 	{
+		m_observers.remove(observer);
 	}
 	
 	void Subject::notify()
