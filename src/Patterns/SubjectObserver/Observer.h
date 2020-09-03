@@ -8,5 +8,7 @@ namespace systelab { namespace patterns {
 	{
 	public:
 		virtual void update(const Subject*) = 0;
+		
+		void observe(Subject*);
 	};
 }}
