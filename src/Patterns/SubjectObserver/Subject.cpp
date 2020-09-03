@@ -21,7 +21,7 @@ namespace systelab { namespace patterns {
 	{
 		for(auto& o: m_observers)
 		{
-			o->update(NULL);
+			o->update(this);
 		}
 	}
 }}
