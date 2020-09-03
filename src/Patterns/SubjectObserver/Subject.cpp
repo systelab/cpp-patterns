@@ -8,8 +8,9 @@ namespace systelab { namespace patterns {
 	{
 	}
 	
-	void Subject::attach(Observer*)
+	void Subject::attach(Observer* observer)
 	{
+		m_observers.push_back(observer);
 	}
 	
 	void Subject::dettach(Observer*)
@@ -18,5 +19,9 @@ namespace systelab { namespace patterns {
 	
 	void Subject::notify()
 	{
+		for(auto& o: m_observers)
+		{
+			o->update(NULL);
+		}
 	}
 }}

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <list>
+
 namespace systelab { namespace patterns {
 	
 	class Observer;
@@ -12,6 +14,9 @@ namespace systelab { namespace patterns {
 		void attach(Observer*);
 		void dettach(Observer*);
 		void notify();
+		
+	private:
+		std::list<Observer*> m_observers;
 	};
 	
 }}
