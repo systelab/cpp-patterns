@@ -35,4 +35,16 @@ namespace systelab { namespace patterns { namespace test {
 		EXPECT_CALL(observer, update(_));
 		m_subject->notify();
 	}
+	
+	TEST_F(SubjectTest, testNotifyObserversCallsUpdateOnAddedObservers)
+	{
+		MockObserver observers[5];
+		for (auto& o: observers)
+		{
+			m_subject->attach(&o);
+			EXPECT_CALL(o, update(_));
+		}
+				
+		m_subject->notify();
+	}
 }}}
