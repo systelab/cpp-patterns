@@ -32,7 +32,7 @@ namespace systelab { namespace patterns { namespace test {
 		
 		VisitorMock::VisitorMock()
 		{
-			ON_CALL(*this, visit(A<IVisitable&>())).WillByDefault(Throw(std::exception("Visiting IVisitable!!")));
+			ON_CALL(*this, visit(A<IVisitable&>())).WillByDefault(Throw(std::runtime_error("Visiting IVisitable!!")));
 			ON_CALL(*this, visit(A<VisitableA&>())).WillByDefault(InvokeWithoutArgs([](){std::cout << "Visiting VisitableA" << std::endl;}));
 			ON_CALL(*this, visit(A<VisitableB&>())).WillByDefault(InvokeWithoutArgs([](){std::cout << "Visiting VisitableB" << std::endl;}));
 			ON_CALL(*this, visit(A<VisitableC&>())).WillByDefault(InvokeWithoutArgs([](){std::cout << "Visiting VisitableC" << std::endl;}));
