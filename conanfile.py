@@ -10,17 +10,12 @@ class PatternsConan(ConanFile):
     license = "MIT"
     generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"], "openssl": ["1.0.2n", "1.0.2s", "1.1.1g"]}
-    default_options = {"gtest":"1.10.0", "openssl":"1.1.1g"}
+    options = {"gtest": ["1.15.0"]}
+    default_options = {"gtest":"1.15.0"}
     exports_sources = "*"
 
     def build_requirements(self):
-        if self.options.gtest == "1.7.0":
-            self.build_requires("gtest/1.7.0@systelab/stable")
-        elif self.options.gtest == "1.8.1":
-            self.build_requires("gtest/1.8.1")
-        else:
-            self.build_requires("gtest/1.10.0")
+        self.build_requires("gtest/1.15.0")
 
     def build(self):
         cmake = CMake(self)
